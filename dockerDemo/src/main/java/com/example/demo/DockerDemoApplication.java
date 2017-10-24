@@ -7,8 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tavant.spring.boot.SpringBootWebApplication;
-
 @SpringBootApplication
 @RestController
 public class DockerDemoApplication {
@@ -16,9 +14,9 @@ public class DockerDemoApplication {
 	
 	private static final Logger log = LoggerFactory.getLogger(DockerDemoApplication.class);
 
-	@RequestMapping("/")
+	@RequestMapping("/demo")
     public String home() {
-		System.out.println("Serving client request...");
+		System.out.println("Serving client request...");		
 		log.info("Logging the request");
 		
         return "Hello Docker World "+Math.random()*10000+1;
