@@ -26,6 +26,7 @@
 	</properties>
 
 	<dependencyManagement>
+
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
@@ -67,71 +68,75 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<repositories>
+		<repository>
+			<id>maven-public</id>
+			<url>http://10.129.146.81:8081/repository/finship-maven-group/</url>
+		</repository>
+	</repositories>
 
 	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>com.spotify</groupId>
-					<artifactId>docker-maven-plugin</artifactId>
-					<version>0.2.3</version>
-					<executions>
-						<execution>
-							<phase>package</phase>
-							<goals>
-								<goal>build</goal>
-							</goals>
-						</execution>
-					</executions>
-					<configuration>
-						<dockerDirectory>${project.build.directory}/classes</dockerDirectory>
-						<pushImage>${push.image}</pushImage>      <!-- true when Jenkins builds, false otherwise -->
-						<imageName>${docker.registry}alooma/${project.artifactId}:${git.commit.id.abbrev}</imageName>
-						<resources>
-							<resource>
-								<targetPath>/</targetPath>
-								<directory>${project.basedir}</directory>
-								<excludes>
-									<exclude>target/**/*</exclude>
-									<exclude>pom.xml</exclude>
-									<exclude>*.iml</exclude>
-								</excludes>
-							</resource>
-							<rescource>
-								<targetPath>/</targetPath>
-								<directory>${project.build.directory}</directory>
-								<include>finship.war</include>
-							</rescource>
-						</resources>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-		<resources>
-			<resource>
-				<directory>${project.basedir}</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>**/Dockerfile</include>
-				</includes>
-			</resource>
-		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.5.1</version>
+				<executions>
+					<execution>
+						<id>default-deploy</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<serverId>nexus</serverId>
+					<nexusUrl>http://10.129.146.81:8081/repository/finship-maven-group/</nexusUrl>
+					<skipStaging>false</skipStaging>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.2.3</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<dockerDirectory>${project.basedir}</dockerDirectory>
+					<imageName>finship/${project.artifactId}</imageName>
+				</configuration>
+			</plugin>
+		</plugins>
+		<extensions>
+			<!-- Enabling the use of SSH -->
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh-external</artifactId>
+				<version>1.0-beta-6</version>
+			</extension>
+		</extensions>
 	</build>
 	<distributionManagement>
 		<snapshotRepository>
 			<id>nexus-snapshots</id>
 			<name>Snapshot</name>
-			<url>http://10.129.146.81:8081/repository/finship-docker-repo/</url>
+			<url>http://10.129.146.81:8081/repository/finship-maven-private/</url>
 		</snapshotRepository>
 	</distributionManagement>
-	<!-- <distributionManagement>
-		<snapshotRepository>
-			<id>nexus-snapshots</id>
-			<url>http://your-host:8081/repository/maven-snapshots/</url>
-		</snapshotRepository>
-		<repository>
-			<id>nexus-releases</id>
-			<url>http://your-host:8081/repository/maven-releases/</url>
-		</repository>
-	</distributionManagement> -->
+
+	<!-- <distributionManagement> <snapshotRepository> <id>nexus-snapshots</id> 
+		<url>http://your-host:8081/repository/maven-snapshots/</url> </snapshotRepository> 
+		<repository> <id>nexus-releases</id> <url>http://your-host:8081/repository/maven-releases/</url> 
+		</repository> </distributionManagement> -->
 </project>
