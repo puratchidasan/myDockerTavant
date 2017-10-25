@@ -100,23 +100,6 @@
 					<skipStaging>false</skipStaging>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.2.3</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>build</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<dockerDirectory>${project.basedir}</dockerDirectory>
-					<imageName>finship/${project.artifactId}</imageName>
-				</configuration>
-			</plugin>
 		</plugins>
 		<extensions>
 			<!-- Enabling the use of SSH -->
