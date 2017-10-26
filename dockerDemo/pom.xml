@@ -58,7 +58,7 @@
 				</executions>
 				<configuration>
 					<serverId>nexus</serverId>
-					<nexusUrl>http://10.129.146.81:8081/repository/finship-npm-private/</nexusUrl>
+					<nexusUrl>http://10.129.146.81:8081/repository/finship-maven-private/</nexusUrl>
 					<skipStaging>false</skipStaging>
 				</configuration>
 			</plugin>
@@ -75,8 +75,8 @@
 	<distributionManagement>
 		<snapshotRepository>
 			<id>nexus-snapshots</id>
-			<name>finship-docker-private</name>
-			<url>http://10.129.146.81:8081/repository/finship-npm-private/</url>
+			<name>finship-maven-private</name>
+			<url>http://10.129.146.81:8081/repository/finship-maven-private/</url>
 		</snapshotRepository>
 	</distributionManagement>
 
