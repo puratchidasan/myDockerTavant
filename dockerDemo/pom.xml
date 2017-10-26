@@ -75,8 +75,8 @@
 	<distributionManagement>
 		<snapshotRepository>
 			<id>nexus-snapshots</id>
-			<name>finship-maven-private</name>
-			<url>http://10.129.146.81:8081/repository/finship-maven-private/</url>
+			<name>finship-maven-group</name>
+			<url>http://10.129.146.81:8081/repository/finship-maven-group/</url>
 		</snapshotRepository>
 	</distributionManagement>
 
